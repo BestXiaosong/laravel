@@ -9,12 +9,19 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 
 class Base extends Controller
 {
-    public function index()
-    {
-        echo 'this is api';
+    use ApiResponse;
+
+    public function index(){
+
+
+        return $this->message('请求成功');
+
     }
+
+
 }

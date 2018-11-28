@@ -13,3 +13,5 @@
 */
 
 Route::get('/', 'Base@index');
+Route::get('/1', 'Base@index');
+Route::get('/api/index', 'Api@index');

@@ -9,7 +9,7 @@ class Users extends Model
     //
     static public function getOne()
     {
-        return self::first()->toArray();
+        return self::first();
 
     }
 
