@@ -11,7 +11,8 @@ function api_return($code,$msg = '',$data = [],$headers = []){
     $content['data']   = $data;
     $content['time']   = request()->server('REQUEST_TIME');
 
-    $data = \Illuminate\Http\Response::create($content,200,$headers);
-    throw new \Illuminate\Http\Exceptions\HttpResponseException($data);
+    $response = \Illuminate\Http\Response::create($content,200,$headers);
+
+    throw new \Illuminate\Http\Exceptions\HttpResponseException($response);
 }
 
