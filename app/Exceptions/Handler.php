@@ -2,10 +2,13 @@
 
 namespace App\Exceptions;
 
-use App\Api\Helpers\Api\ExceptionReport;
 use App\Helpers\ApiResponse;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -56,42 +59,40 @@ class Handler extends ExceptionHandler
 //        return parent::render($request, $exception);
 //    }
 
-
-
+    /**
+     * Created by xiaosong
+     * E-mail:4155433@gmail.com
+     * @param \Illuminate\Http\Request $request
+     * @param Exception $exception
+     * @return \Symfony\Component\HttpFoundation\Response|static
+     * 重写laravel异常处理
+     */
     public function render($request, Exception $exception)
     {
 
-//        var_dump($exception->getMessage());exit;
-
-
-
-
-
-        // 将方法拦截到自己的ExceptionReport
-//        $reporter = ExceptionReport::make($exception);
-
-//        dd($exception);exit;
-
-
-        if ($this->shouldReturn()){
-            return $this->failed($exception->getMessage(),400);
-//            $this->failed($exception->getMessage(),$exception->getCode());
-
-
-//
-//           var_dump($exception->getMessage());
-//
-//            var_dump($exception->getMessage());exit;
-//
-//            var_dump(  $exception->getMessage());exit;
-
-
-//            return $reporter->report();
+        if ($this->shouldReturn()){ //ajax或api访问时统一返回错误
+            if ($exception instanceof  ValidationException){
+                $errorMsg = $exception->validator->errors()->first();
+            }elseif ($exception instanceof ModelNotFoundException){
+                $errorMsg = $exception->getMessage();
+            }elseif ($exception instanceof NotFoundHttpException){
+                $errorMsg = '路由错误';
+            }elseif ($exception instanceof MethodNotAllowedHttpException){
+                $errorMsg = '请求方式错误';
+            }else{
+                $errorMsg = $exception->getTraceAsString();
+            }
+             return error_exception(0,$errorMsg);
         }
-//        return $this->failed($exception->getMessage(),400);
         return parent::render($request, $exception);
     }
 
+    /**
+     * Created by xiaosong
+     * E-mail:4155433@gmail.com
+     * @return bool
+     * 判断是否拦截异常方法
+     */
     public function shouldReturn(){
 
         //判断是否拦截异常
