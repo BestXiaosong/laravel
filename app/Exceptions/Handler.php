@@ -71,6 +71,7 @@ class Handler extends ExceptionHandler
     {
 
         if ($this->shouldReturn()){ //ajax或api访问时统一返回错误
+
             if ($exception instanceof  ValidationException){
                 $errorMsg = $exception->validator->errors()->first();
             }elseif ($exception instanceof ModelNotFoundException){
@@ -95,8 +96,22 @@ class Handler extends ExceptionHandler
      */
     public function shouldReturn(){
 
+        $sld_prefix = isset($_SERVER['HTTP_HOST'])?explode('.',$_SERVER['HTTP_HOST'])[0]:'';
+
         //判断是否拦截异常
-        return true;
+        if (
+
+            request()->ajax() ||
+            strstr(config('base.API_URL'),$sld_prefix) ||
+            request()->input('_ajax') == config('base.var_ajax')
+        )
+        {
+            return true;
+
+        }else{
+            return false;
+        }
+
     }
 
 }
