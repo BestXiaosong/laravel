@@ -9,12 +9,11 @@
 namespace App\Http\Controllers\Api;
 
 
-use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 
 class Base extends Controller
 {
-    use ApiResponse;
+
 
     public function index(){
 

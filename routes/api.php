@@ -1,6 +1,6 @@
 <?php
 
-
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,4 +14,9 @@
 
 Route::get('/', 'Base@index');
 Route::get('/1', 'Base@index');
-Route::get('/api/index', 'Api@index');
+Route::any('/api/index', 'Api@index');
+
+//批量注册路由
+Route::group(['prefix'=>'api/v1'],function (){
+    Route::resource('Users','UsersController');
+});

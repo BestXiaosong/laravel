@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Helpers\ApiResponse;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -13,7 +12,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Handler extends ExceptionHandler
 {
 
-    use ApiResponse;
 
     /**
      * A list of the exception types that are not reported.
@@ -96,6 +94,7 @@ class Handler extends ExceptionHandler
      */
     public function shouldReturn(){
 
+        return false;
         $sld_prefix = isset($_SERVER['HTTP_HOST'])?explode('.',$_SERVER['HTTP_HOST'])[0]:'';
 
         //判断是否拦截异常

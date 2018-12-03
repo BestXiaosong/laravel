@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
 
-class AuthenticateController extends Api
+class AuthenticateController extends       Api
 {
 
     use AuthenticatesUsers;

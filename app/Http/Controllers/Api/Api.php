@@ -29,12 +29,21 @@ class Api extends Base
 //
 ////        dd($data);
 //            return   (new Users)->toArray($data);
-        $mode = \App\Models\model\Users::find();
-        $rows =  Test::collection($mode);
+        $results = \App\Models\model\Users::paginate(2)   ;
 
+        foreach ($results as $k => $v){
+            $results[$k]['user_id'] = md5($v['user_id']);
+
+        }
+
+//        $rows =   Test::collection($results);
+//        dd($rows);
+
+
+//        dd($results->links());
+        api_return(1,'获取成功',$results->toArray());
 //        dd();
 
-        return $this->success($rows);
     }
 
 }

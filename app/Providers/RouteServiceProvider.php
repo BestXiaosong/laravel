@@ -46,9 +46,9 @@ class RouteServiceProvider extends ServiceProvider
          * 根据域名前缀进行模块绑定
          */
         $sld_prefix = isset($_SERVER['HTTP_HOST'])?explode('.',$_SERVER['HTTP_HOST'])[0]:'';
-        if(config('base.ADMIN_URL') == $sld_prefix){
+        if(strstr(config('base.ADMIN_URL'),$sld_prefix)){
             $this->mapAdminRoutes();
-        }elseif(config('base.API_URL') == $sld_prefix){
+        }elseif(strstr(config('base.API_URL'),$sld_prefix)){
             $this->mapApiRoutes();
         }else{
             $this->mapIndexRoutes();
